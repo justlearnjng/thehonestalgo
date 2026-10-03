@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>TheHonestAlgo — Issue 01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #f4f2ed;
+      --surface: #fbfaf7;
+      --ink: #171915;
+      --muted: #62665e;
+      --faint: #dedbd2;
+      --rule: #cbc7bc;
+      --green: #0b6e4f;
+      --green-wash: #dfeee7;
+      --red: #a13b31;
+      --red-wash: #f2dfdc;
+      --yellow: #f3c969;
+      --shadow: 0 24px 70px rgba(31, 34, 28, .08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #171914;
+        --surface: #1e211b;
+        --ink: #f2efe7;
+        --muted: #aeb3a8;
+        --faint: #30342c;
+        --rule: #444940;
+        --green: #77d4ac;
+        --green-wash: #193b2d;
+        --red: #ed8d84;
+        --red-wash: #442723;
+        --yellow: #e9bd58;
+        --shadow: 0 24px 70px rgba(0, 0, 0, .24);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 17px;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 3px;
+      background: var(--green);
+      z-index: 20;
+    }
+    .mast {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 28px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--rule);
+      font: 500 12px/1.3 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .mast time { color: var(--muted); }
+    .mast .issue { color: var(--green); }
+    .layout {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 210px minmax(0, 720px);
+      gap: 64px;
+      justify-content: center;
+      padding: 72px 0 100px;
+    }
+    .rail { position: relative; }
+    .rail-inner { position: sticky; top: 36px; }
+    .rail-label {
+      margin: 0 0 16px;
+      font: 500 11px/1.3 "IBM Plex Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .rail nav { border-top: 1px solid var(--rule); }
+    .rail a {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--faint);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+    .rail a:hover, .rail a:focus-visible { color: var(--green); }
+    article { min-width: 0; }
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--green);
+      font: 500 12px/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font: 700 clamp(3.2rem, 8vw, 6.4rem)/.92 "Newsreader", serif;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+    .dek {
+      max-width: 650px;
+      margin: 28px 0 24px;
+      font-family: "Newsreader", serif;
+      font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+      line-height: 1.42;
+      color: var(--muted);
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      padding-bottom: 42px;
+      color: var(--muted);
+      font: 400 12px/1.4 "IBM Plex Mono", monospace;
+    }
+    .lead {
+      padding: 26px 28px 28px;
+      margin: 0 0 52px;
+      background: var(--ink);
+      color: var(--surface);
+      box-shadow: var(--shadow);
+      font-family: "Newsreader", serif;
+      font-size: 1.22rem;
+      line-height: 1.55;
+    }
+    @media (prefers-color-scheme: dark) {
+      .lead { background: #eeece4; color: #181a16; }
+    }
+    .lead p { margin: 0; }
+    section {
+      scroll-margin-top: 28px;
+      margin: 0 0 64px;
+    }
+    h2 {
+      margin: 0 0 20px;
+      font: 700 clamp(2rem, 5vw, 3.25rem)/1.02 "Newsreader", serif;
+      letter-spacing: -.035em;
+      text-wrap: balance;
+    }
+    p { margin: 0 0 20px; }
+    strong { font-weight: 600; }
+    .rules {
+      margin: 30px 0 22px;
+      border-top: 1px solid var(--rule);
+    }
+    .rule-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .rule-row dt {
+      margin: 0;
+      color: var(--green);
+      font: 500 12px/1.5 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+    .rule-row dd { margin: 0; }
+    .scorecard {
+      margin: 32px 0 24px;
+      background: var(--surface);
+      border-top: 4px solid var(--ink);
+      box-shadow: var(--shadow);
+    }
+    .score-head, .score-row {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .score-head {
+      padding: 15px 22px;
+      color: var(--muted);
+      font: 500 11px/1.3 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      border-bottom: 1px solid var(--rule);
+    }
+    .score-row {
+      padding: 17px 22px;
+      border-bottom: 1px solid var(--faint);
+    }
+    .score-row:last-child { border-bottom: 0; }
+    .score-row span:first-child { font-weight: 500; }
+    .score-row strong { font-family: "IBM Plex Mono", monospace; }
+    .system-win { color: var(--green); }
+    .system-loss { color: var(--red); }
+    .callout {
+      margin: 30px 0;
+      padding: 5px 0 5px 24px;
+      border-left: 4px solid var(--yellow);
+      font: 500 1.25rem/1.5 "Newsreader", serif;
+    }
+    .portfolio {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr 1fr;
+      gap: 1px;
+      margin: 30px 0;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+    .stat { background: var(--surface); padding: 22px; }
+    .stat .label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font: 500 11px/1.35 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .stat .value {
+      display: block;
+      font: 700 1.5rem/1.1 "Newsreader", serif;
+    }
+    .stat.primary .value { font-size: 2rem; color: var(--red); }
+    .trade-summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(190px, .8fr);
+      align-items: start;
+      gap: 1px;
+      margin: 30px 0 28px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      box-shadow: var(--shadow);
+    }
+    .chart-panel, .closed-panel { background: var(--surface); }
+    .chart-panel { padding: 22px 22px 16px; }
+    .summary-eyebrow {
+      display: block;
+      color: var(--muted);
+      font: 500 11px/1.35 "IBM Plex Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .summary-total {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 8px 0 10px;
+    }
+    .summary-total strong {
+      font: 700 1.55rem/1.1 "Newsreader", serif;
+      color: var(--red);
+    }
+    .summary-total span {
+      color: var(--muted);
+      font: 400 11px/1.35 "IBM Plex Mono", monospace;
+    }
+    #pnl-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .closed-panel {
+      min-height: 100%;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+    .closed-count {
+      margin: 18px 0 2px;
+      font: 700 3.4rem/.9 "Newsreader", serif;
+    }
+    .closed-label {
+      margin: 0;
+      font: 500 13px/1.4 "IBM Plex Mono", monospace;
+    }
+    .closed-note {
+      margin: auto 0 0;
+      padding-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .positions {
+      margin: 28px 0 0;
+      border-top: 1px solid var(--rule);
+    }
+    .position {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 16px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .ticker { font: 500 13px/1.3 "IBM Plex Mono", monospace; }
+    .position .note { color: var(--muted); font-size: 14px; }
+    .pnl { font: 500 14px/1.3 "IBM Plex Mono", monospace; }
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .next {
+      margin: 0;
+      padding: 30px;
+      background: var(--green-wash);
+    }
+    .next h2 { font-size: 2.25rem; }
+    .next ul { margin: 18px 0 0; padding-left: 20px; }
+    .next li { margin: 10px 0; padding-left: 6px; }
+    .disclaimer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font: 400 12px/1.6 "IBM Plex Mono", monospace;
+    }
+    @media (max-width: 820px) {
+      .mast { padding: 22px 20px 16px; }
+      .layout {
+        width: min(100% - 40px, 720px);
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 48px 0 76px;
+      }
+      .rail { display: none; }
+      h1 { font-size: clamp(3.4rem, 15.5vw, 5.2rem); }
+    }
+    @media (max-width: 560px) {
+      body { font-size: 16px; }
+      .mast { align-items: flex-start; }
+      .mast span:last-child { text-align: right; }
+      .layout { width: min(100% - 30px, 720px); padding-top: 40px; }
+      .kicker { margin-bottom: 14px; }
+      .dek { margin-top: 22px; }
+      .meta { padding-bottom: 32px; }
+      .lead { margin-left: -15px; margin-right: -15px; padding: 24px 20px; }
+      section { margin-bottom: 54px; }
+      .rule-row { grid-template-columns: 1fr; gap: 6px; }
+      .scorecard { margin-left: -5px; margin-right: -5px; }
+      .score-head { display: none; }
+      .score-row { grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+      .score-row span:first-child { grid-column: 1 / -1; }
+      .score-row strong::before {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--muted);
+        font: 400 9px/1.2 "IBM Plex Mono", monospace;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+      }
+      .score-row strong:nth-child(2)::before { content: "System"; }
+      .score-row strong:nth-child(3)::before { content: "SPY"; }
+      .portfolio { grid-template-columns: 1fr 1fr; }
+      .stat.primary { grid-column: 1 / -1; }
+      .trade-summary { grid-template-columns: 1fr; }
+      .closed-panel { min-height: 190px; }
+      .closed-note { margin-top: 20px; padding-top: 0; }
+      .position { grid-template-columns: 62px 1fr auto; gap: 10px; }
+      .next { padding: 24px 20px; margin-left: -5px; margin-right: -5px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="mast">
+    <span class="issue">TheHonestAlgo · Issue 01</span>
+    <time datetime="2026-10-02">October 2, 2026</time>
+    <span>6 min read</span>
+  </header>
+
+  <main class="layout">
+    <aside class="rail" aria-label="In this issue">
+      <div class="rail-inner">
+        <p class="rail-label">In this issue</p>
+        <nav>
+          <a href="#why">Why this exists</a>
+          <a href="#strategy">The strategy</a>
+          <a href="#backtest">The backtest</a>
+          <a href="#summary">Trading summary</a>
+          <a href="#next">What’s next</a>
+        </nav>
+      </div>
+    </aside>
+
+    <article>
+      <p class="kicker">TheHonestAlgo · The experiment begins</p>
+      <h1>A robot is trading $100,000.</h1>
+      <p class="dek">TheHonestAlgo publishes weekly portfolio totals, open positions, and closed-trade results. If the system proves itself over multiple weeks, it graduates to real money. If it doesn’t, the results will show that too.</p>
+      <div class="meta">
+        <span>Simulated portfolio</span>
+        <span>Live market quotes</span>
+        <span>Week ending Oct. 2</span>
+      </div>
+
+      <div class="lead">
+        <p>TheHonestAlgo starts with a simulated $100,000 portfolio trading on live market quotes. No cherry-picking. No “trust me bro.” Just the numbers.</p>
+      </div>
+
+      <section id="why">
+        <h2>Why this exists</h2>
+        <p>TheHonestAlgo began with a simple mandate: build a trading system and test whether it can make money. It runs autonomously—checking the market every 30 minutes during trading hours, placing and closing its own simulated trades.</p>
+        <p>Then came the harder question: does it actually beat buying the S&amp;P 500 and doing nothing?</p>
+        <p>A backtest spanning more than five years and 494 trades produced an uncomfortable answer—and a reason to publish the full record.</p>
+      </section>
+
+      <section id="strategy">
+        <h2>The strategy, in plain English</h2>
+        <p>The system hunts for stocks already moving, then applies mechanical risk rules before a trade ever opens.</p>
+        <dl class="rules">
+          <div class="rule-row">
+            <dt>Momentum</dt>
+            <dd>60-day return in the top 20% of the S&amp;P 500.</dd>
+          </div>
+          <div class="rule-row">
+            <dt>Volume</dt>
+            <dd>At least 1.5× normal volume—evidence that participation is expanding.</dd>
+          </div>
+          <div class="rule-row">
+            <dt>Breakout</dt>
+            <dd>Price within 5% of its 60-day high.</dd>
+          </div>
+          <div class="rule-row">
+            <dt>Risk</dt>
+            <dd>A 6% stop before entry; roughly 1.2% of the portfolio at risk per trade; six positions maximum.</dd>
+          </div>
+          <div class="rule-row">
+            <dt>Exit</dt>
+            <dd>30% profit target, trailing protection as winners run, and a 20-trading-day time limit.</dd>
+          </div>
+        </dl>
+        <p>High risk, but disciplined. Swing at real movers with quality behind them. No junk, no dead money.</p>
+      </section>
+
+      <section id="backtest">
+        <h2>The backtest delivered an uncomfortable result</h2>
+        <p>From 2021 through this week, both approaches start with $100,000:</p>
+        <div class="scorecard" role="table" aria-label="System versus SPY backtest results">
+          <div class="score-head" role="row">
+            <span role="columnheader">Metric</span><span role="columnheader">The system</span><span role="columnheader">Buy SPY</span>
+          </div>
+          <div class="score-row" role="row">
+            <span role="cell">Ending value</span><strong class="system-loss" role="cell">$192.6k</strong><strong role="cell">$225.3k</strong>
+          </div>
+          <div class="score-row" role="row">
+            <span role="cell">Total return</span><strong class="system-loss" role="cell">+92.6%</strong><strong role="cell">+125.3%</strong>
+          </div>
+          <div class="score-row" role="row">
+            <span role="cell">Annual return</span><strong class="system-loss" role="cell">12.1%</strong><strong role="cell">15.2%</strong>
+          </div>
+          <div class="score-row" role="row">
+            <span role="cell">Worst drawdown</span><strong class="system-loss" role="cell">−26.6%</strong><strong role="cell">−24.5%</strong>
+          </div>
+          <div class="score-row" role="row">
+            <span role="cell">Win rate</span><strong role="cell">40.1%</strong><strong role="cell">—</strong>
+          </div>
+        </div>
+        <p class="callout">The system made money. It nearly doubled the account. And it still lost to doing nothing.</p>
+        <p>This is the part most trading content leaves out: a strategy can look impressive until it is compared with the simplest alternative. Publishing that comparison is the point.</p>
+        <p>The baseline system went live while research continues on version two: smaller-cap momentum, post-earnings drift, and better bear-market behavior. The bar is explicit—beat SPY on a risk-adjusted basis, or admit it can’t be done.</p>
+      </section>
+
+      <section id="week-one">
+        <h2>Week one: basically flat</h2>
+        <p>TheHonestAlgo began its live-market simulation on September 23. Nine days in, nothing has hit a stop, target, or time limit yet.</p>
+        <div class="portfolio" aria-label="TheHonestAlgo portfolio summary">
+          <div class="stat primary">
+            <span class="label">Portfolio</span>
+            <span class="value">$99,822.90</span>
+          </div>
+          <div class="stat">
+            <span class="label">Return</span>
+            <span class="value negative">−0.18%</span>
+          </div>
+          <div class="stat">
+            <span class="label">Closed trades</span>
+            <span class="value">0</span>
+          </div>
+        </div>
+        <div class="trade-summary" id="summary" aria-label="Trading summary">
+          <div class="chart-panel">
+            <span class="summary-eyebrow">Open P&amp;L by position</span>
+            <div class="summary-total">
+              <strong id="open-pnl-total">−$177</strong>
+              <span>Unrealized · rounded</span>
+            </div>
+            <div id="pnl-chart"></div>
+          </div>
+          <div class="closed-panel">
+            <span class="summary-eyebrow">Completed trades</span>
+            <strong class="closed-count" id="closed-trade-count">0</strong>
+            <p class="closed-label">Realized P&amp;L <span id="realized-pnl">—</span></p>
+            <p class="closed-note" id="closed-trade-note">No exits yet. Closed trades will appear here with realized results.</p>
+          </div>
+        </div>
+        <div class="positions" id="open-positions" aria-label="Open positions"></div>
+        <p style="margin-top:24px">This is the boring part of systematic trading: most of the time, nothing happens. Then something does.</p>
+      </section>
+
+      <section class="next" id="next">
+        <h2>What’s next</h2>
+        <ul>
+          <li>The system checks the market every 30 minutes on market days and trades when signals trigger.</li>
+          <li>Version two research tests new strategy families against the same honesty bar.</li>
+          <li>If TheHonestAlgo demonstrates sustained edge over the index, it gets a shot with real money. Until then, it stays in forward validation.</li>
+        </ul>
+      </section>
+
+      <p class="disclaimer">TheHonestAlgo · Simulated capital. Not financial advice. This is documentation of an experiment, not a recommendation to buy or sell any security. Backtests are hypothetical and can be affected by bias, assumptions, and execution costs.</p>
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      var tradeData = [
+        { ticker: 'AMZN', note: 'Carrying the team', pnl: 180, status: 'open' },
+        { ticker: 'PLTR', note: 'Chopping', pnl: -106, status: 'open' },
+        { ticker: 'ARM', note: 'The sore thumb', pnl: -251, status: 'open' }
+      ];
+
+      function money(value) {
+        if (value === 0) return '$0';
+        return (value > 0 ? '+$' : '−$') + Math.abs(value).toLocaleString('en-US');
+      }
+
+      function svgElement(name, attrs, text) {
+        var element = document.createElementNS('http://www.w3.org/2000/svg', name);
+        Object.keys(attrs || {}).forEach(function (key) { element.setAttribute(key, attrs[key]); });
+        if (text !== undefined) element.textContent = text;
+        return element;
+      }
+
+      function renderSummary() {
+        var openTrades = tradeData.filter(function (trade) { return trade.status === 'open'; });
+        var closedTrades = tradeData.filter(function (trade) { return trade.status === 'closed'; });
+        var openTotal = openTrades.reduce(function (sum, trade) { return sum + trade.pnl; }, 0);
+        var realizedTotal = closedTrades.reduce(function (sum, trade) { return sum + trade.pnl; }, 0);
+
+        var totalNode = document.getElementById('open-pnl-total');
+        totalNode.textContent = money(openTotal);
+        totalNode.className = openTotal >= 0 ? 'positive' : 'negative';
+        document.getElementById('closed-trade-count').textContent = closedTrades.length;
+        document.getElementById('realized-pnl').textContent = closedTrades.length ? money(realizedTotal) : '—';
+        document.getElementById('closed-trade-note').textContent = closedTrades.length
+          ? 'Completed trades are included in the realized result above.'
+          : 'No exits yet. Closed trades will appear here with realized results.';
+
+        var positions = document.getElementById('open-positions');
+        openTrades.forEach(function (trade) {
+          var row = document.createElement('div');
+          row.className = 'position';
+          row.innerHTML = '<span class="ticker"></span><span class="note"></span><strong class="pnl"></strong>';
+          row.children[0].textContent = trade.ticker;
+          row.children[1].textContent = trade.note;
+          row.children[2].textContent = money(trade.pnl);
+          row.children[2].classList.add(trade.pnl >= 0 ? 'positive' : 'negative');
+          positions.appendChild(row);
+        });
+
+        var width = 620;
+        var height = 230;
+        var plotLeft = 120;
+        var plotRight = 590;
+        var baseline = (plotLeft + plotRight) / 2;
+        var halfWidth = (plotRight - plotLeft) / 2;
+        var maxAbs = openTrades.reduce(function (max, trade) { return Math.max(max, Math.abs(trade.pnl)); }, 0);
+        var domain = Math.max(50, Math.ceil(maxAbs / 50) * 50);
+        var svg = svgElement('svg', {
+          viewBox: '0 0 ' + width + ' ' + height,
+          role: 'img',
+          'aria-label': 'Open profit and loss by position. AMZN up 180 dollars, PLTR down 106 dollars, ARM down 251 dollars.'
+        });
+        svg.appendChild(svgElement('title', {}, 'Open profit and loss by position'));
+
+        [plotLeft, baseline, plotRight].forEach(function (x) {
+          svg.appendChild(svgElement('line', {
+            x1: x, y1: 18, x2: x, y2: 192,
+            stroke: 'var(--rule)', 'stroke-width': x === baseline ? 2 : 1
+          }));
+        });
+
+        openTrades.forEach(function (trade, index) {
+          var y = 34 + index * 58;
+          var barWidth = Math.abs(trade.pnl) / domain * halfWidth;
+          var barX = trade.pnl >= 0 ? baseline : baseline - barWidth;
+          var color = trade.pnl >= 0 ? 'var(--green)' : 'var(--red)';
+          svg.appendChild(svgElement('text', {
+            x: 0, y: y + 17, fill: 'currentColor',
+            'font-family': 'IBM Plex Mono, monospace', 'font-size': 14, 'font-weight': 500
+          }, trade.ticker));
+          svg.appendChild(svgElement('rect', {
+            x: barX, y: y, width: barWidth, height: 23, fill: color, rx: 1
+          }));
+          svg.appendChild(svgElement('text', {
+            x: trade.pnl >= 0 ? barX + barWidth + 8 : barX - 8,
+            y: y + 17,
+            fill: color,
+            'text-anchor': trade.pnl >= 0 ? 'start' : 'end',
+            'font-family': 'IBM Plex Mono, monospace', 'font-size': 13, 'font-weight': 500
+          }, money(trade.pnl)));
+        });
+
+        [
+          { x: plotLeft, label: '−$' + domain },
+          { x: baseline, label: '$0' },
+          { x: plotRight, label: '+$' + domain }
+        ].forEach(function (tick) {
+          svg.appendChild(svgElement('text', {
+            x: tick.x, y: 218, fill: 'var(--muted)', 'text-anchor': 'middle',
+            'font-family': 'IBM Plex Mono, monospace', 'font-size': 11
+          }, tick.label));
+        });
+        document.getElementById('pnl-chart').appendChild(svg);
+      }
+
+      var bar = document.querySelector('.progress');
+      function updateProgress() {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var percent = max > 0 ? (window.scrollY / max) * 100 : 0;
+        bar.style.width = Math.min(100, Math.max(0, percent)) + '%';
+      }
+      renderSummary();
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+    }());
+  </script>
+</body>
+</html>
